@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { TrackContext } from "../context/TrackContext";
 import Header from "../components/Header";
 
+// Pagina per il DJ
 const DJPage: React.FC = () => {
   const { tracks, addTrack, deleteTrack, startSession, endSession, markTrackPlayed } = useContext(TrackContext)!;
   const [title, setTitle] = useState("");

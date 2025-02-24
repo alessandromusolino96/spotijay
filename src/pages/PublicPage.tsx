@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { TrackContext } from "../context/TrackContext";
 import Header from "../components/Header";
 
+// Pagina per il pubblico
 const PublicPage: React.FC = () => {
   const { tracks, voteForTrack, joinSession, sessionActive } = useContext(TrackContext)!;
   const [sessionInput, setSessionInput] = useState("");
