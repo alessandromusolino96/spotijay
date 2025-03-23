@@ -16,13 +16,10 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Aggiorna se il tuo frontend è su un dominio diverso
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
-
-// Stato in memoria: ogni sessione ha un array di tracce
-let sessions = {};
 
 // Funzione per generare un codice sessione univoco (6 caratteri)
 function generateSessionId(length = 6) {
@@ -63,7 +60,7 @@ io.on("connection", (socket) => {
       if (session) {
         socket.join(sessionId);
         console.log(`Socket ${socket.id} si è unito alla sessione ${sessionId}`);
-        socket.emit("tracksUpdate", sessions[sessionId].tracks);
+        socket.emit("tracksUpdate", session.tracks);
         callback({ success: true });
       } else {
         callback({ success: false, error: "Sessione non trovata o terminata" });
@@ -108,8 +105,11 @@ io.on("connection", (socket) => {
 
   // Rimozione di una traccia
   socket.on("deleteTrack", async ({ sessionId, trackId }) => {
+    console.log(sessionId);
+    console.log(trackId);
     try {
       const session = await Session.findOne({ sessionId, sessionActive: true });
+      console.log(session);
       if (session) {
         session.tracks = session.tracks.filter((track) => track.trackId !== trackId);
         session.tracks.sort((a, b) => b.votes - a.votes);

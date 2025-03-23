@@ -56,6 +56,7 @@ export const TrackProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   };
 
   const deleteTrack = (trackId: string) => {
+    console.log(trackId);
     if (socket && sessionId) {
       socket.emit("deleteTrack", { sessionId, trackId });
     }
